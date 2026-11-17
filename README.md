@@ -14,7 +14,7 @@ Práctica realizada durante mi formación en redes y ciberseguridad. El objetivo
 
 ## 1. Topología
 
-![Topología del laboratorio](evidencias/01-topologia.png)
+![Topología del laboratorio](01-topologia.png)
 
 La topología contiene tres routers (R1, R2 y R3), cuatro switches (S1–S4), cuatro equipos (PC1–PC4) y un servidor DNS. Las redes LAN visibles son:
 
