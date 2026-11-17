@@ -38,17 +38,17 @@ Desde la consola de **PC1** ejecuté pruebas `ping` hacia dispositivos locales y
 
 ### Pruebas a PC2 y PC3
 
-![Ping de PC1 a PC2](evidencias/02-ping-pc1-pc2.png)
+![Ping de PC1 a PC2](02-ping-pc1-pc2.png)
 
-![Ping de PC1 a PC3](evidencias/03-ping-pc1-pc3.png)
+![Ping de PC1 a PC3](03-ping-pc1-pc3.png)
 
 ### Pruebas a redes remotas
 
 Los intentos hacia PC4 y el servidor DNS devolvieron `Destination host unreachable` desde `192.168.10.1` (R1).
 
-![Ping bloqueado hacia PC4](evidencias/04-ping-pc1-pc4-bloqueado.png)
+![Ping de PC1 a PC4 bloqueado](04-ping-pc1-pc4-bloqueado.png)
 
-![Ping bloqueado hacia el servidor DNS](evidencias/05-ping-pc1-dns-bloqueado.png)
+![Ping de PC1 al servidor DNS bloqueado](05-ping-pc1-dns-bloqueado.png)
 
 ## 3. Investigación de la ACL
 
@@ -61,7 +61,7 @@ Standard IP access list 11
     20 permit any
 ```
 
-![Reglas de la ACL 11](evidencias/06-acl-deny.png)
+![Configuración de la ACL 11](06-acl-deny.png)
 
 La primera regla **deniega** el tráfico cuyo origen sea la red `192.168.10.0/24`. La segunda **permite** tráfico de otros orígenes. La máscara `0.0.0.255` es una *wildcard mask* que identifica los 24 bits de red que deben coincidir.
 
@@ -73,7 +73,7 @@ interface Serial0/0/0
  ip access-group 11 out
 ```
 
-![Configuración de la interfaz y la ACL](evidencias/07-acl-interfaz.png)
+![ACL aplicada a la interfaz](07-acl-interfaz.png)
 
 La ACL estaba asociada a **Serial0/0/0 de R1**, en dirección **saliente (`out`)**. Por eso bloqueaba el tráfico originado en `192.168.10.0/24` que necesitaba atravesar esa interfaz para alcanzar las redes remotas. La comunicación local o hacia la red conectada a otra interfaz no seguía ese mismo recorrido.
 
@@ -93,7 +93,7 @@ R1# show access-lists
 
 La última consulta no mostró ninguna ACL configurada.
 
-![Comandos de eliminación y verificación](evidencias/08-eliminacion-acl.png)
+![Eliminación de la ACL](08-eliminacion-acl.png)
 
 ## 5. Verificación después del cambio
 
@@ -104,7 +104,7 @@ Repetí los pings desde PC1:
 | PC4 (`192.168.30.12`) | 0/4 respuestas | 3/4 respuestas |
 | Servidor DNS (`192.168.31.12`) | 0/4 respuestas | 3/4 respuestas |
 
-![Pings después de retirar la ACL](evidencias/09-conectividad-restaurada.png)
+![Conectividad restaurada](09-conectividad-restaurada.png)
 
 En ambas pruebas el primer paquete agotó el tiempo de espera y los tres siguientes respondieron. Esto confirma que la conectividad con los dos destinos se recuperó. En Packet Tracer, una primera pérdida puede estar relacionada con la resolución ARP u otros procesos iniciales, aunque estas capturas por sí solas no permiten determinar la causa exacta.
 
